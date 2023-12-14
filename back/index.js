@@ -208,17 +208,27 @@ app.get('/configuracoes/:email', (req, res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
+    const jsonPathSaldo = path.join(__dirname, '.', 'db', 'banco-dados-saldos.json');
+    const saldosCadastrados = JSON.parse(fs.readFileSync(jsonPathSaldo, { encoding: 'utf8', flag: 'r' }));
+
     //verifica se já existe usuario com o email informado
     
     for (let users of usuariosCadastrados){
         if(users.email === email){
-            const usuarioConfiguracoes = {
-                token: users.token,
-                username: users.username,
-                email: users.email,
-            };
 
-            res.json(usuarioConfiguracoes);
+            for(let userSaldo of saldosCadastrados) {
+                if(userSaldo.email === email) {
+                    const usuarioConfiguracoes = {
+                        token: users.token,
+                        username: users.username,
+                        email: users.email,
+                        saldo: userSaldo.saldo
+                    };
+        
+                    res.json(usuarioConfiguracoes);
+                }
+            }
+            
         }  
     }
 

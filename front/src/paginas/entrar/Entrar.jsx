@@ -10,7 +10,7 @@ export default function Entrar(){
 
     const schema = yup.object({
         email: yup.string().email('Email inválido').required('Email obrigatório'),
-        password: yup.string().min(6,'Campo Senha Obrigatório').required(),
+        password: yup.string().min(4,'Campo Senha Obrigatório').required(),
     });
 
     const [msg, setMsg] = useState(' ');

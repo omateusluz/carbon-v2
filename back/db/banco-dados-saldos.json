@@ -1,26 +1,10 @@
 [
   {
-    "email": "lucas.prado_14@hotmail.com",
-    "saldo": 0
-  },
-  {
-    "email": "lucas.prado_1@hotmail.com",
-    "saldo": 0
-  },
-  {
-    "email": "lucas.prado_12@hotmail.com",
-    "saldo": 0
-  },
-  {
-    "email": "lucas.prado_2@hotmail.com",
-    "saldo": 0
-  },
-  {
-    "email": "lucas.prado_5@hotmail.com",
-    "saldo": 0
-  },
-  {
     "email": "faria@gmail.com",
+    "saldo": 2222
+  },
+  {
+    "email": "lucas@gmail.com",
     "saldo": 0
   }
 ]

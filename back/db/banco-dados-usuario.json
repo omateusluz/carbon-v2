@@ -1,16 +1,16 @@
 [
   {
     "id": 1,
-    "username": "jaumzito",
-    "email": "jaum@teste.com.br",
-    "password": "$2b$10$ALUfDbUgkPF1rDW2VjbDn.86Lr2ubj2bKlttUikjXucoUtVHegC8i",
-    "token": "787otfgbdfbvt7"
-  },
-  {
-    "id": 2,
     "username": "matheus",
     "email": "faria@gmail.com",
     "password": "$2b$10$m0Eo8M5vXwbQ2caGtu2fbOSJnL63zNnRUwGRPvG1r5RjzJsFam/VW",
     "token": "Sd2bSz7U0cc8fPE"
+  },
+  {
+    "id": 2,
+    "username": "lucas",
+    "email": "lucas@gmail.com",
+    "password": "$2b$10$SCIa.wMgU2CkwxkEBEn73Ose7v2byuJWp5Y1R5xRMfmkS7VUn9rFC",
+    "token": "BNR4wzI97byHGSQ"
   }
 ]
