@@ -74,7 +74,7 @@ export default function Recuperar(){
 
             </form>
             
-            <div className="p-wrapper">
+            <div className="pb-wrapper">
               <a className="p" href="/entrar">{`<- Retornar`}</a>
             </div>
             

@@ -41,6 +41,8 @@ export default function ListaDisciplinas(){
     if(!validado){
         return <p>Token Inválido</p>
     }
+
+    
     
     return(
         <>  

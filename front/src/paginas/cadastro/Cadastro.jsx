@@ -1,10 +1,9 @@
-import '../../styles/Cadastrar.css';
+import '../../styles/Cadastro.css';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 
 export default function Cadastro(){
     
@@ -69,8 +68,8 @@ export default function Cadastro(){
 
             </form>
             
-            <div className="p-wrapper">
-              <a className="p" href="/entrar">{`<- Tenho uma conta`}</a>
+            <div className="pA-wrapper">
+              <a className="pA" href="/entrar">{`<- Tenho uma conta`}</a>
             </div>
             
           </div>

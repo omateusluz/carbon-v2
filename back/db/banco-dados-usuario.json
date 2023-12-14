@@ -8,22 +8,9 @@
   },
   {
     "id": 2,
-    "username": "jaum2",
-    "email": "jaum2@teste.com.br",
-    "password": "$2b$10$fFXploFtrqZ.8BraesugueglhktE6kW0/1baXHGPQdu0dgmsMtIc.",
-    "token": "1234rgdzvfertuhtr"
-  },
-  {
-    "id": 3,
-    "username": "omatheusluz",
-    "email": "omatheusluz@gmail.com",
-    "password": "$2b$10$OqVWachFVUzkM9WaOKZvV.nSfNdXdDV119aYhAisdAWHoNh5VGWxO"
-  },
-  {
-    "id": 4,
     "username": "luz",
     "email": "luz@gmail.com",
-    "password": "$2b$10$umJt63VdcWBWL5fgFfodEe8rNgxHZsm4KBzRiarP7IEJLgTAt6iBS",
-    "token": "iuIR49h7jrazuXc"
+    "password": "$2b$10$q83ERv3DWv/hduRAVgBrXusPDRRwqVOOmDxjsSubUMCxzAl9YmEaq",
+    "token": "gttivHAUBGzwQaE"
   }
 ]

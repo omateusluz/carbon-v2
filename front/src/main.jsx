@@ -16,8 +16,7 @@ import EnvioUm from './paginas/envio-um/EnvioUm.jsx';
 import EnvioDois from './paginas/envio-dois/EnvioDois.jsx';
 import EnvioTres from './paginas/envio-tres/EnvioTres.jsx';
 import Home from './paginas/home/Home.jsx';
-import NovoEmailUm from './paginas/novo-email-um/NovoEmailUm.jsx';
-import NovoEmailDois from './paginas/novo-email-dois/NovoEmailDois.jsx';
+import NovoEmail from './paginas/novo-email/NovoEmail.jsx';
 import Recuperar from './paginas/recuperar/Recuperar.jsx';
 import NaoEncontrado from './paginas/NaoEncontrado.jsx';
 
@@ -65,12 +64,8 @@ const router = createBrowserRouter([
     element: <EnvioTres />
   },
   {
-    path: 'email-um',
-    element: <NovoEmailUm />
-  },
-  {
-    path: 'email-dois',
-    element: <NovoEmailDois />
+    path: 'email',
+    element: <NovoEmail />
   },
   {
     path: 'recuperar',

@@ -74,18 +74,18 @@ body {
     width: fit-content;
   }
   
-.pb-wrapper {
+.pA-wrapper {
     align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    left: 32px;
+    padding-left: 30px;
     position: absolute;
     top: 555px;
-    width: 70px;
+    width: 250px;
   }
   
-.p {
+.pA {
     color: #525866;
     font-family: Inter;
     font-size: 13px;

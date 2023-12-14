@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require('express');
-const session = require('express-session');
 const app = express();
 const fs = require('fs');
 const cors = require('cors');
@@ -17,13 +16,6 @@ function randomStringAsBase64Url(size) {
 //Necessário para extrair os dados de Forms vindos de uma requisição POST
 app.use(express.json());
 app.use(cors());
-app.use(
-    session({
-      secret: 'UzkM9WaOKZvV.nSfNdXdDV11',
-      resave: true,
-      saveUninitialized: true,
-    })
-  );
 
 app.listen(3000, () => {
     console.log('Servidor na porta 3000');
@@ -72,9 +64,6 @@ app.post('/recuperar', async (req,res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
-    console.log(token)
-    console.log(email)
-    console.log(password)
     // Verifica se existe usuário com o último email armazenado
     for (let user of usuariosCadastrados){
         if(user.email === email){
@@ -96,7 +85,52 @@ app.post('/recuperar', async (req,res) => {
         } 
     }
 
-    // Usuário não encontrado com o último email armazenado.
+    // Usuário não encontrado
+    return res.status(409).send(`Usuário não encontrado ou informação incorreta.`);
+
+})
+
+// Requisicao com PUT para autenticar codigo de recuperacao
+// e permitir a alteração do email
+app.put('/email', async (req,res) => {
+
+    //extraindo os dados do formulário para criacao do usuario
+    const {token, email, novoEmail, password} = req.body; 
+
+    //Abre o bd (aqui estamos simulando com arquivo)
+    const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
+
+    for (let users of usuariosCadastrados){
+        if(users.email === novoEmail){
+            // Email ja utilizado. Impossivel alterar
+            // Retornando o erro 409 para indicar conflito
+            return res.status(409).send(`Usuario com email ${novoEmail} já existe.`);
+        }
+    }
+
+    // Verifica se existe usuário com o último email armazenado
+    for (let users of usuariosCadastrados){
+        if(users.email === email){
+            const passwordValidado = await bcrypt.compare(password, users.password);
+            if(passwordValidado){
+                if(users.token === token) {
+                    // Atualiza o email do usuario com o novoEmail
+                    users.email = novoEmail;
+    
+                    // Altera o token 
+                    users.token = randomStringAsBase64Url(11);
+                
+                    // Salva as alterações no "banco"
+                    fs.writeFileSync(jsonPath, JSON.stringify(usuariosCadastrados, null, 2));
+                
+                    return res.send('Email alterado com sucesso!');
+                }
+            }
+        } 
+    }
+
+    // Usuário não encontrado
     return res.status(409).send(`Usuário não encontrado ou informação incorreta.`);
 
 })
@@ -123,7 +157,7 @@ app.post('/create', async (req,res) => {
     const id = usuariosCadastrados.length + 1;
     
     //gera um token único para cada usuário
-    let token = randomStringAsBase64Url(11);
+    const token = randomStringAsBase64Url(11);
 
     //gerar uma senha cryptografada
     const salt = await bcrypt.genSalt(10);
@@ -131,22 +165,17 @@ app.post('/create', async (req,res) => {
 
     //Criacao do user
     const user = new User(id, username, email, passwordCrypt, token);
-    console.log(user);
     //Salva user no "banco"
     usuariosCadastrados.push(user);
     fs.writeFileSync(jsonPath,JSON.stringify(usuariosCadastrados,null,2));
     res.send(`Tudo certo usuario criado com sucesso.`);
 });
 
+// gambiarra aqui, deve ter uma forma mais inteligente
+app.get('/verificador', verificaToken,  (req, res) => {
 
-app.get('/disciplinas', verificaToken,  (req,res) => {
-
-    //Abre o bd (aqui estamos simulando com arquivo) com as disciplinas
-    //__dirname é o diretorio corrente onde esse arquivo esta executando
-    const jsonPath = path.join(__dirname, '.', 'db', 'disciplinas.json');
-    const disciplinas = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
-
-    return res.json(disciplinas);
+    const verificado = true;
+    return res.json(verificado);
 
 })
 
@@ -169,7 +198,7 @@ app.get('/disciplinas/:sigla', verificaToken, (req,res) => {
 
 })
 
-function verificaToken(req,res,next){
+function verificaToken(req,res,next) {
 
     const authHeaders = req.headers['authorization'];
     
