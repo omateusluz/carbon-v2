@@ -10,5 +10,19 @@
     "username": "jaum2",
     "email": "jaum2@teste.com.br",
     "password": "$2b$10$fFXploFtrqZ.8BraesugueglhktE6kW0/1baXHGPQdu0dgmsMtIc."
+  },
+  {
+    "id": 3,
+    "username": "omatheusluz",
+    "email": "omatheusluz@gmail.com",
+    "password": "$2b$10$KQPZHG3T2ztncFtcVOnDT.Cj5HfcqGi5s5qTvHiHpNbviamWXgKau",
+    "recuperacao": "94026358"
+  },
+  {
+    "id": 4,
+    "username": "aaa",
+    "email": "aaa@gmail.com",
+    "password": "$2b$10$vWpZhCUUPYRydpW7kMRUu.YpAjCURYcNGiNIgWyy0cxHT2eEdvReC",
+    "recuperacao": "32941793"
   }
 ]
