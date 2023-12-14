@@ -179,6 +179,29 @@ app.get('/verificador', verificaToken,  (req, res) => {
 
 })
 
+// Endpoint para obter informações de configurações com base no email do usuário
+app.get('/configuracoes/:email', (req, res) => {
+    const email = req.params.email;
+  
+    const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
+    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
+
+    //verifica se já existe usuario com o email informado
+    
+    for (let users of usuariosCadastrados){
+        if(users.email === email){
+            const usuarioConfiguracoes = {
+                token: users.token,
+                username: users.username,
+                email: users.email,
+            };
+
+            res.json(usuarioConfiguracoes);
+        }   
+    }
+
+});
+
 app.get('/disciplinas/:sigla', verificaToken, (req,res) => {
 
   

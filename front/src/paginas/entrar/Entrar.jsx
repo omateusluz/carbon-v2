@@ -31,6 +31,7 @@ export default function Entrar(){
             //Extrair o token
             const token = response.data.token;
             sessionStorage.setItem('token', token);
+            sessionStorage.setItem('email', data.email);
             if(token)
                 setMsg('Autenticado');
         } catch (error) {

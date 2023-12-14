@@ -8,33 +8,63 @@ import { Link, Navigate } from 'react-router-dom';
 
 export default function Configuracoes(){
 
-    const handleLogout = () => {
-        sessionStorage.removeItem('token');
-        window.location.href = '/';
-    };
+    const email = sessionStorage.getItem('email');
 
+    const [usuarioConfiguracoes, setUsuarioConfiguracoes] = useState({
+      token: '',
+      username: '',
+      email: '',
+    });
+  
+    const handleLogout = () => {
+      sessionStorage.removeItem('token');
+      window.location.href = '/';
+    };
+  
+    useEffect(() => {
+      // Função para buscar configurações do usuário no backend
+      const getConfiguracoes = async () => {
+        const token = sessionStorage.getItem('token');
+  
+        try {
+          const response = await axios.get(`http://localhost:3000/configuracoes/${email}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          // Atualize as informações do usuário no estado
+          setUsuarioConfiguracoes(response.data);
+        } catch (error) {
+          console.error('Erro ao obter configurações:', error);
+        }
+      };
+  
+      getConfiguracoes();
+    }, []); // O segundo argumento vazio garante que esta função seja chamada apenas uma vez no carregamento inicial
+    
     return (
         <div className="configuracoes">
           <div className="group-wrapper">
             <div className="group">
               <div className="bloco-II">
-                <img className="line" alt="Line" src="line.svg" />
+                <img className="line" alt="Line" />
                 <div className="parte-v">
                   <a className="p" href='/recuperar'>Editar -&gt;</a>
                   <p className="text-wrapper">Mantém a segurança de seu dinheiro.</p>
                   <div className="h">Senha</div>
                 </div>
-                <img className="img" alt="Line" src="image.svg" />
+                <img className="img" alt="Line" />
                 <div className="parte-IV">
                   <a className="p" href='/email'>Editar -&gt;</a>
-                  <div className="div">luz@gmail.com</div>
+                  <div className="divE">{usuarioConfiguracoes.email}</div>
                   <p className="text-wrapper">Usado para mantermos o contato.</p>
                   <div className="h">Email</div>
                 </div>
-                <img className="line-2" alt="Line" src="line-2.svg" />
-                <img className="line-3" alt="Line" src="line-3.svg" />
+                <img className="line-2" alt="Line" />
+                <img className="line-3" alt="Line"  />
                 <div className="parte-II">
-                  <div className="div">omateusluz</div>
+                  <div className="divE">{usuarioConfiguracoes.username}</div>
                   <p className="text-wrapper">É mostrado ao efetuar ou receber pagamentos.</p>
                   <div className="h">Nome de usuario</div>
                 </div>
@@ -45,13 +75,13 @@ export default function Configuracoes(){
                     <div className="h">Deletar conta</div>
                   </div>
                 </div>
-                <img className="line-4" alt="Line" src="line-4.svg" />
+                <img className="line-4" alt="Line"  />
                 <div className="parte-i">
-                  <div className="div">17865484326</div>
+                  <div className="divE">{usuarioConfiguracoes.token}</div>
                   <p className="text-wrapper">Guarde para recuperar a conta.</p>
                   <div className="h">Token de Segurança</div>
                 </div>
-                <img className="line-5" alt="Line" src="line-5.svg" />
+                <img className="line-5" alt="Line" />
               </div>
               <div className="bloco-i">
                 <p className="h-2">Personalize e altere suas informações.</p>
