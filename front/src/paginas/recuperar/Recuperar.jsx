@@ -49,7 +49,7 @@ export default function Recuperar(){
         <div className="geral">
           <div className="div">
             <div className="h-wrapper">
-              <div className="text-wrapper">Recuperar minha conta</div>
+              <div className="text-wrapper">Alterar minha senha</div>
             </div>
             <div className="frame">
               <p className="h">Insira os dados corretos para seguir</p>

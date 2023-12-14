@@ -46,7 +46,7 @@ export default function Login(){
 
     return (
         <>  
-            <h2>Entre para acessar os serviços</h2>
+            <h2>404</h2>
             <form onSubmit={handleSubmit(submit)} noValidate>
 
                 <label htmlFor="email" placeholder="email">Email</label>

@@ -72,7 +72,7 @@ const router = createBrowserRouter([
     element: <Recuperar />
   },
   {
-    path: 'nao-encontrado',
+    path: '*',
     element: <NaoEncontrado />
   }
 ]);
