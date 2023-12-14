@@ -3,45 +3,46 @@ import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
+export default function Dashboard(){
 
-export default function Login(){
+    const [validado, setValidado] = useState(false);
+    const [formData, setFormData] = useState({
+        sigla : ' '
+    })
 
-    const schema = yup.object({
-        email: yup.string().email('Email inválido').required('Email obrigatório'),
-        password: yup.string().min(2,'Campo Senha Obrigatório').required(),
-    });
+    const form = useForm();
+    const { register, handleSubmit } = form;
 
-    const [msg, setMsg] = useState(' ');
-
-    const form = useForm({
-        resolver: yupResolver(schema)
-    });
-
-    const { register, handleSubmit, formState } = form;
-
-    const {errors} = formState;
-
-    const submit = async (data) => {
-        
-        try {
-            const response = await axios.post('http://localhost:3000/login', data);
-
-            //Extrair o token
-            const token = response.data.token;
-            sessionStorage.setItem('token', token);
-            if(token)
-                setMsg('Autenticado');
-        } catch (error) {
-            setMsg(error.response.data);
-        }   
-        
+    const submit = (data) => {
+        setFormData({...formData, ...data});
     }
 
-    if(msg.toLowerCase().includes('autenticado')){
-        return <Navigate to='/disciplinas' />
+    const config = {
+        headers:{
+            'Authorization' : 'Bearer '.concat(sessionStorage.getItem('token'))
+        }
+    }
+    
+    useEffect(() => {
+
+        async function valida(){
+            try{
+                const resposta = await axios.get(`http://localhost:3000/disciplinas`,config);
+                console.log(resposta);
+                if(resposta.status === 200)
+                    setValidado(true);
+            }catch(error){
+                setValidado(false);
+            }
+        }
+        valida();
+    }, []);
+
+    if(!validado){
+        return <p>Token Inválido</p>
     }
 
     return (

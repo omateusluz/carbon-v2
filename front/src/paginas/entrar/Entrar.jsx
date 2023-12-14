@@ -50,7 +50,7 @@ export default function Entrar(){
           <p className='erro'>{errors.password?.message}</p>
           <div className="div1" id="bloco">
             <div className="links1" id="lins">
-              <a className="p22" href="/recuperar-um">{`Esqueci minha senha ->`}</a>
+              <a className="p22" href="/recuperar">{`Esqueci minha senha ->`}</a>
               <a className="p23" href="/cadastro">{`Não tenho uma conta ->`}</a>
             </div>
         

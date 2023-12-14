@@ -66,76 +66,40 @@ app.post('/login', async (req,res) => {
 app.post('/recuperar', async (req,res) => {
 
     //extraindo os dados do formulário para criacao do usuario
-    const {email, codigo} = req.body; 
+    const {token, email, password} = req.body; 
     
     //Abre o bd (aqui estamos simulando com arquivo)
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
-    //verifica se existe usuario com email    
+    console.log(token)
+    console.log(email)
+    console.log(password)
+    // Verifica se existe usuário com o último email armazenado
     for (let user of usuariosCadastrados){
         if(user.email === email){
 
-            if(user.token === codigo) {
-                // Armazena o email na sessão
-                req.session.lastEmail = email;
-                
-                const token = jwt.sign(user, process.env.TOKEN);
-                return res.json({ "token" : token});
+            if(user.token === token) {
+                // Atualiza a senha do usuário com a nova senha
+                const salt = await bcrypt.genSalt(10);
+                const novaSenhaCrypt = await bcrypt.hash(password, salt);
+                user.password = novaSenhaCrypt;
 
-            } else {
-                return res.status(422).send(`Usuario ou codigo incorretos.`);
+                // Altera o token 
+                user.token = randomStringAsBase64Url(11);
+            
+                // Salva as alterações no "banco"
+                fs.writeFileSync(jsonPath, JSON.stringify(usuariosCadastrados, null, 2));
+            
+                return res.send('Senha alterada com sucesso!');
             }
-                
-        }   
-    }
-    //Nesse ponto não existe usuario com email informado.
-    return res.status(409).send(`Usuario com email ${email} não existe.`);
-
-})
-
-// Requisicao com POST publica para autenticar codigo de recuperacao
-// e permitir recuperar e alterar senha
-app.put('/recuperar-dois', async (req, res) => {
-    const { novaSenha } = req.body;
-  
-    //Abre o bd (aqui estamos simulando com arquivo)
-    const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
-    const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
-
-    // Recupera o último email armazenado na sessão
-    const lastEmail = req.session.lastEmail || '';
-    console.log('Last Email:', lastEmail);
-  
-    // Verifica se existe usuário com o último email armazenado
-  
-    for (let user of usuariosCadastrados){
-        if(user.email === lastEmail){
-
-            // Atualiza a senha do usuário com a nova senha
-            const salt = await bcrypt.genSalt(10);
-            const novaSenhaCrypt = await bcrypt.hash(novaSenha, salt);
-            user.password = novaSenhaCrypt;
-        
-            // Limpa o último email armazenado na sessão após a alteração da senha
-            req.session.lastEmail = null;
-
-            // Altera o token 
-            user.token = randomStringAsBase64Url(11);
-        
-            // Salva as alterações no "banco"
-            fs.writeFileSync(jsonPath, JSON.stringify(usuariosCadastrados, null, 2));
-        
-            return res.send('Senha alterada com sucesso!');
-                
         } 
     }
 
     // Usuário não encontrado com o último email armazenado.
-    return res.status(409).send(`Usuário não encontrado.`);
+    return res.status(409).send(`Usuário não encontrado ou informação incorreta.`);
 
-});
-
+})
 
 //Requisicao com POST publica para criar usuário
 app.post('/create', async (req,res) => {
