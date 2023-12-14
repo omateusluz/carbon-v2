@@ -10,6 +10,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Cadastro from './paginas/cadastro/Cadastro.jsx';
 import Configuracoes from './paginas/configuracoes/Configuracoes.jsx';
 import Dashboard from './paginas/dashboard/Dashboard.jsx';
+import Deletar from './paginas/deletar/Deletar.jsx';
 import Detalhes from './paginas/detalhes/Detalhes.jsx';
 import Entrar from './paginas/entrar/Entrar.jsx';
 import EnvioUm from './paginas/envio-um/EnvioUm.jsx';
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: 'dashboard',
     element: <Dashboard />
+  },
+  {
+    path: 'deletar',
+    element: <Deletar />
   },
   {
     path: 'detalhes',

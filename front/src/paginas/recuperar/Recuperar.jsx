@@ -33,8 +33,10 @@ export default function Recuperar(){
             //Extrair o token
             const token = response.data.token;
             sessionStorage.setItem('token', token);
-            if(token)
-                setMsg('Autenticado');
+            if(token){
+              setMsg('Autenticado');
+              sessionStorage.removeItem('token');
+            }
         } catch (error) {
             setMsg(error.response.data);
         }   

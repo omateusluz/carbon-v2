@@ -8,40 +8,68 @@ import { Link, Navigate } from 'react-router-dom';
 
 export default function Configuracoes(){
 
-    const email = sessionStorage.getItem('email');
+  const email = sessionStorage.getItem('email');
+  const token = sessionStorage.getItem('token');
 
-    const [usuarioConfiguracoes, setUsuarioConfiguracoes] = useState({
-      token: '',
-      username: '',
-      email: '',
-    });
-  
-    const handleLogout = () => {
-      sessionStorage.removeItem('token');
-      window.location.href = '/';
+  const [validado, setValidado] = useState(false);
+  const [usuarioConfiguracoes, setUsuarioConfiguracoes] = useState({
+    token: '',
+    username: '',
+    email: '',
+  });
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    window.location.href = '/';
+  };
+
+  useEffect(() => {
+    // Função para verificar o token antes de buscar configurações
+    const verificarToken = async () => {
+      try {
+        // Verifique se o token é válido fazendo uma requisição GET para a API /verificador
+        const resposta = await axios.get('http://localhost:3000/verificador', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (resposta.status === 200) {
+          setValidado(true);
+        }
+      } catch (error) {
+        setValidado(false);
+      }
     };
-  
-    useEffect(() => {
-      // Função para buscar configurações do usuário no backend
-      const getConfiguracoes = async () => {
-        const token = sessionStorage.getItem('token');
-  
-        try {
+
+    verificarToken();
+  }, [token]);
+
+  useEffect(() => {
+    // Se o token for válido, busque as configurações do usuário
+    const getConfiguracoes = async () => {
+      try {
+        if (validado) {
           const response = await axios.get(`http://localhost:3000/configuracoes/${email}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-  
+
           // Atualize as informações do usuário no estado
           setUsuarioConfiguracoes(response.data);
-        } catch (error) {
-          console.error('Erro ao obter configurações:', error);
         }
-      };
-  
-      getConfiguracoes();
-    }, []); // O segundo argumento vazio garante que esta função seja chamada apenas uma vez no carregamento inicial
+      } catch (error) {
+        console.error('Erro ao obter configurações:', error);
+      }
+    };
+
+    getConfiguracoes();
+  }, [validado, email, token]);
+
+  if (!validado) {
+    return <p>Token Inválido</p>;
+  }
     
     return (
         <div className="configuracoes">
@@ -70,7 +98,7 @@ export default function Configuracoes(){
                 </div>
                 <div className="parte-II-wrapper">
                   <div className="parte-II-2">
-                    <div className="p">Editar -&gt;</div>
+                    <a className="p" href='/deletar'>Deletar -&gt;</a>
                     <p className="text-wrapper">É necessário verificar suas credenciais.</p>
                     <div className="h">Deletar conta</div>
                   </div>

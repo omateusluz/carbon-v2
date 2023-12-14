@@ -12,5 +12,12 @@
     "email": "bababa@gmail.com",
     "password": "$2b$10$5ZgvXRaPajLjVD8Wmr9.nOUX4tmoGaDIlfWIx6jkVkxtuh8abrsF.",
     "token": "xxddv3215J5tBos"
+  },
+  {
+    "id": 3,
+    "username": "luz",
+    "email": "faria@gmail.com",
+    "password": "$2b$10$z6LoNsvjArZ4H.hnIhDWIexilqONahRC3LmWXhKtkEO/V.Lasvjum",
+    "token": "boT66srHi8T9J4g"
   }
 ]

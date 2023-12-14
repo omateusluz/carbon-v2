@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 export default function NovoEmail(){
 
@@ -34,13 +35,15 @@ export default function NovoEmail(){
           sessionStorage.setItem('token', token);
     
           // Se o token estiver presente ou outra condição de sucesso, defina a mensagem
-          if (token) {
+          if (token){
             setMsg('Autenticado');
+            sessionStorage.removeItem('token');
           }
+            
         } catch (error) {
           setMsg(error.response.data);
         }
-      };
+      }
     
       useEffect(() => {
         async function valida() {
