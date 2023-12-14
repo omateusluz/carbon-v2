@@ -22,6 +22,8 @@ app.listen(3000, () => {
 });
 
 const User = require('./model/User');
+const Saldo = require('./model/Saldo');
+
 
 //Requisicao com POST publica para autenticar usuário
 app.post('/login', async (req,res) => {
@@ -101,6 +103,9 @@ app.put('/email', async (req,res) => {
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
 
+    const jsonPathSaldo = path.join(__dirname, '.', 'db', 'banco-dados-saldos.json');
+    const saldosCadastrados = JSON.parse(fs.readFileSync(jsonPathSaldo, { encoding: 'utf8', flag: 'r' }));
+
     for (let users of usuariosCadastrados){
         if(users.email === novoEmail){
             // Email ja utilizado. Impossivel alterar
@@ -121,9 +126,18 @@ app.put('/email', async (req,res) => {
                     // Altera o token 
                     users.token = randomStringAsBase64Url(11);
                 
+                    // precisa alterar o email do saldo tambem
+                    for (let emailSaldo of saldosCadastrados){
+                        if(emailSaldo.email === email){
+
+                            emailSaldo.email = novoEmail;
+                        }
+                    }
+
                     // Salva as alterações no "banco"
                     fs.writeFileSync(jsonPath, JSON.stringify(usuariosCadastrados, null, 2));
-                
+                    fs.writeFileSync(jsonPathSaldo,JSON.stringify(saldosCadastrados,null,2));
+
                     return res.send('Email alterado com sucesso!');
                 }
             }
@@ -142,6 +156,9 @@ app.post('/create', async (req,res) => {
     
     const jsonPath = path.join(__dirname, '.', 'db', 'banco-dados-usuario.json');
     const usuariosCadastrados = JSON.parse(fs.readFileSync(jsonPath, { encoding: 'utf8', flag: 'r' }));
+
+    const jsonPathSaldo = path.join(__dirname, '.', 'db', 'banco-dados-saldos.json');
+    const saldosCadastrados = JSON.parse(fs.readFileSync(jsonPathSaldo, { encoding: 'utf8', flag: 'r' }));
 
     //verifica se já existe usuario com o email informado
     
@@ -165,8 +182,13 @@ app.post('/create', async (req,res) => {
 
     //Criacao do user
     const user = new User(id, username, email, passwordCrypt, token);
-    //Salva user no "banco"
+    const saldo = new Saldo(email,0);
+
+    //Salva user e saldo no banco
     usuariosCadastrados.push(user);
+    saldosCadastrados.push(saldo);
+
+    fs.writeFileSync(jsonPathSaldo,JSON.stringify(saldosCadastrados,null,2));
     fs.writeFileSync(jsonPath,JSON.stringify(usuariosCadastrados,null,2));
     res.send(`Tudo certo usuario criado com sucesso.`);
 });
@@ -197,7 +219,7 @@ app.get('/configuracoes/:email', (req, res) => {
             };
 
             res.json(usuarioConfiguracoes);
-        }   
+        }  
     }
 
 });

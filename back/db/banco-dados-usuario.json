@@ -8,16 +8,9 @@
   },
   {
     "id": 2,
-    "username": "luz",
-    "email": "bababa@gmail.com",
-    "password": "$2b$10$5ZgvXRaPajLjVD8Wmr9.nOUX4tmoGaDIlfWIx6jkVkxtuh8abrsF.",
-    "token": "xxddv3215J5tBos"
-  },
-  {
-    "id": 3,
-    "username": "luz",
+    "username": "matheus",
     "email": "faria@gmail.com",
-    "password": "$2b$10$z6LoNsvjArZ4H.hnIhDWIexilqONahRC3LmWXhKtkEO/V.Lasvjum",
-    "token": "boT66srHi8T9J4g"
+    "password": "$2b$10$m0Eo8M5vXwbQ2caGtu2fbOSJnL63zNnRUwGRPvG1r5RjzJsFam/VW",
+    "token": "Sd2bSz7U0cc8fPE"
   }
 ]
