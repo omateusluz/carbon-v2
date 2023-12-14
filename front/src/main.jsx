@@ -20,7 +20,6 @@ import NovoEmailUm from './paginas/novo-email-um/NovoEmailUm.jsx';
 import NovoEmailDois from './paginas/novo-email-dois/NovoEmailDois.jsx';
 import RecuperarUm from './paginas/recuperar-um/RecuperarUm.jsx';
 import RecuperarDois from './paginas/recuperar-dois/RecuperarDois.jsx';
-import RecuperarTres from './paginas/recuperar-tres/RecuperarTres.jsx';
 import NaoEncontrado from './paginas/NaoEncontrado.jsx';
 
 const router = createBrowserRouter([
@@ -81,10 +80,6 @@ const router = createBrowserRouter([
   {
     path: 'recuperar-dois',
     element: <RecuperarDois />
-  },
-  {
-    path: 'recuperar-tres',
-    element: <RecuperarTres />
   },
   {
     path: 'nao-encontrado',

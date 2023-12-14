@@ -1,17 +1,16 @@
-import '../../styles/CreateUser.css';
+import '../../styles/RecuperarDois.css';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-
-export default function Login(){
+export default function RecuperarDois(){
 
     const schema = yup.object({
-        email: yup.string().email('Email inválido').required('Email obrigatório'),
-        password: yup.string().min(2,'Campo Senha Obrigatório').required(),
+        password: yup.string().min(4,'Senha com no mínimo 4 caracteres').required(),
+        passwordConf: yup.string().required('Confirme a senha').oneOf([yup.ref('password')], 'As senhas devem coincidir!'),
     });
 
     const [msg, setMsg] = useState(' ');
@@ -27,7 +26,7 @@ export default function Login(){
     const submit = async (data) => {
         
         try {
-            const response = await axios.post('http://localhost:3000/login', data);
+            const response = await axios.put('http://localhost:3000/recuperar-dois', data);
 
             //Extrair o token
             const token = response.data.token;
@@ -40,30 +39,39 @@ export default function Login(){
         
     }
 
-    if(msg.toLowerCase().includes('autenticado')){
-        return <Navigate to='/disciplinas' />
+    if(msg.toLowerCase().includes('sucesso')){
+        return <Navigate to='/dashboard' />
     }
 
     return (
-        <>  
-            <h2>Entre para acessar os serviços</h2>
+        <div className="enter">
+          <p>{msg}</p>
+          <p className='erro'>{errors.password?.message}</p>
+          <p className='erro'>{errors.passwordConf?.message}</p>
+          <div className="div1" id="bloco">
+            <div className="links1" id="lins">
+              <a className="p23" href="/entrar">{`<- Retornar`}</a>
+            </div>
+        
             <form onSubmit={handleSubmit(submit)} noValidate>
 
-                <label htmlFor="email" placeholder="email">Email</label>
-                <input type="text" id="email" {...register('email')} />
-                <p className='erro'>{errors.email?.message}</p>
+                <h3 className="h33">Senha *</h3>
+                <input className="input3" placeholder="senha" type="password" id="password" {...register('password')} />
+                
+                <h3 className="h32">Confirmação da senha *</h3>
+                <input className="input2" placeholder="confirmacao da senha" type="password"  id="passwordConf" {...register('passwordConf')} />
+                
+                <button className="button1" id="botao">
+                    <h3 className="h3-21">{`Recuperar ->`}</h3>
+                </button>
+            </form>          
 
-                <label htmlFor="password">Senha</label>
-                <input type="password" id="password" {...register('password')} />
-                <p className='erro'>{errors.password?.message}</p>
-
-                <button>Entrar</button>
-            </form>
-            <p className="server-response">{msg}</p>
-            <div className="realizar-cadastro">
-                Não possui conta? 
-                <Link to="/criar-user">Cadastro</Link>
-            </div>
-        </>
-    )
+            <div className="line1" />
+            <h2 className="h21">Minimo de 4 caracteres</h2>
+            <h1 className="h11">Insira a nova senha</h1>
+            <img className="logo-icon1" alt="" src="/logo.svg" />
+          </div>
+        </div>
+    );
+    
 }

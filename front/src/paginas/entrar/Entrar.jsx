@@ -63,7 +63,6 @@ export default function Entrar(){
                 <h3 className="h32">Senha</h3>
                 <input className="input2" type="password" placeholder="senha" id="password" {...register('password')} />
                 
-
                 <button className="button1" id="botao">
                     <h3 className="h3-21">{`Entrar ->`}</h3>
                 </button>

@@ -49,20 +49,18 @@ export default function Cadastro(){
             <div className="frame">
               <p className="h">Insira os dados para cadastrar.</p>
             </div>
-            <img className="line" alt="Line"/>
-
             <form onSubmit={handleSubmit(submit)} noValidate>
                 <div className="h-6">Nome *</div>
-                <input className="input-A" type="text" id="username" placeholder="nome de usuario" {...register('username')} />
+                <input className="inputA" type="text" id="username" placeholder="nome de usuario" {...register('username')} />
 
                 <div className="h-5">Email *</div>
-                <input className="input-B" placeholder="endereco de email" type="text" id="email" {...register('email')} />
+                <input className="inputB" placeholder="endereco de email" type="text" id="email" {...register('email')} />
 
                 <div className="h-4">Senha *</div>
-                <input className="input-C" placeholder="senha" type="password" id="password" {...register('password')} />
+                <input className="inputC" placeholder="senha" type="password" id="password" {...register('password')} />
 
                 <div className="h-3">Confirmação da senha *</div>
-                <input className="input-D" placeholder="confirmacao da senha" type="password" id="passwordConf" {...register('passwordConf')} />
+                <input className="inputD" placeholder="confirmacao da senha" type="password" id="passwordConf" {...register('passwordConf')} />
 
                 <div className="p-2">Mínimo de 4 caracteres</div>
                 <button className="button">
@@ -72,7 +70,7 @@ export default function Cadastro(){
             </form>
             
             <div className="p-wrapper">
-              <a className="p" href="/entrar">{`Tenho uma conta ->`}</a>
+              <a className="p" href="/entrar">{`<- Tenho uma conta`}</a>
             </div>
             
           </div>
